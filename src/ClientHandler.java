@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -6,12 +7,27 @@ public class ClientHandler implements  Runnable{
 
     public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
     private Socket socket;
+    public Rooms roomClass;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
     private String clientUsername;
     private boolean chat;
+    private boolean welcomeMessage = true;
+
+    public boolean roomCreated = false;
+    private boolean testBool = false;
+    private String roomName;
+    private int maxUsers;
+
+
+
+
+
+
+
 
     public ClientHandler(Socket socket) {
+
         try{
             this.socket = socket;
            this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -26,18 +42,93 @@ public class ClientHandler implements  Runnable{
 
     @Override
     public void run() {
+
+
+        //roomClass.rooms.add(new Rooms(roomName, maxUsers));
+       // System.out.println("Number of rooms created is " + roomClass.rooms.size());
+
+
+
+
         String messageFromClient;
         String actionFromClient;
 
+
         while (socket.isConnected() && !chat){
+
             try {
-                bufferedWriter.write("Welcome " + clientUsername + " you have joined the lobby!" + "\n" + "Commands: Join | Create | Quit");
-                bufferedWriter.newLine();
-                bufferedWriter.flush();
-                actionFromClient = bufferedReader.readLine();
-                if(actionFromClient.equalsIgnoreCase("join")){
-                    chat=true;
+
+
+
+                if(welcomeMessage) {
+                    bufferedWriter.write("Welcome " + clientUsername + " you have joined the lobby!" + "\n" + "Commands: Join | Create | Quit");
+                    bufferedWriter.newLine();
+                    bufferedWriter.flush();
+                    welcomeMessage = false;
+
+                } else {
+                    bufferedWriter.write("Please use the commands" + "\n" + "Commands: Join | Create | Quit");
+                    bufferedWriter.newLine();
+                    bufferedWriter.flush();
                 }
+
+
+                actionFromClient = bufferedReader.readLine();
+
+                if(actionFromClient.equalsIgnoreCase("rooms")){
+
+
+                   //bufferedWriter.write("Welcome to the chatroom: " + clientUsername);
+                    bufferedWriter.newLine();
+                    bufferedWriter.flush();
+
+                    chat=true;
+
+                }
+                if(actionFromClient.equalsIgnoreCase("Create")){
+
+                    roomCreated = true;
+
+                    bufferedWriter.write("Please enter the name of your room");
+                    bufferedWriter.newLine();
+                    bufferedWriter.flush();
+                     roomName =  bufferedReader.readLine();
+
+
+                    bufferedWriter.write("How many users in your room");
+                    bufferedWriter.newLine();
+                    bufferedWriter.flush();
+                     maxUsers =  bufferedReader.read();
+
+
+
+                  //
+                   //
+
+
+
+                    chat = true;
+                    testBool = true;
+
+                }
+
+                if(testBool) {
+
+
+                  // roomClass.rooms.add(roomClass.setRooms(roomName,maxUsers))
+                    Rooms roomClass = new Rooms(roomName,maxUsers);
+                  //  roomClass.rooms.add(new Rooms(roomName,maxUsers));
+                     roomClass.rooms.add(roomClass);
+
+                    for (int i = 0; i < roomClass.rooms.size(); i++) {
+                        System.out.println(roomClass.rooms.get(i).name);
+                    }
+
+
+                }
+
+
+
 
             } catch (Exception e) {
                 closeEverything(socket, bufferedReader, bufferedWriter);
@@ -48,6 +139,7 @@ public class ClientHandler implements  Runnable{
             try {
                 messageFromClient = bufferedReader.readLine();
                 broadcastMessage(messageFromClient);
+
             } catch (IOException e) {
                 closeEverything(socket, bufferedReader, bufferedWriter);
                 break;
@@ -61,6 +153,7 @@ public class ClientHandler implements  Runnable{
                     clientHandler.bufferedWriter.write(messageToSend);
                     clientHandler.bufferedWriter.newLine();
                     clientHandler.bufferedWriter.flush();
+
                 }
             } catch (IOException e) {
                 closeEverything(socket,bufferedReader,bufferedWriter);
@@ -89,4 +182,5 @@ public class ClientHandler implements  Runnable{
             e.printStackTrace();
         }
     }
+
 }

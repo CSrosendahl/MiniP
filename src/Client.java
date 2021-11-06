@@ -33,7 +33,7 @@ public class Client  {
              bufferedWriter.write(messageToSend);
              bufferedWriter.newLine();
              bufferedWriter.flush();
-             if (messageToSend.equalsIgnoreCase("join")){
+             if (messageToSend.equalsIgnoreCase("rooms")){
                  joinedroom=true;
              }
          }
