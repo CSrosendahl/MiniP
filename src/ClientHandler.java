@@ -31,8 +31,11 @@ public class ClientHandler implements  Runnable{
 
         while (socket.isConnected() && !chat){
             try {
+                bufferedWriter.write("Welcome " + clientUsername + " you have joined the lobby!" + "\n" + "Commands: Join | Create | Quit");
+                bufferedWriter.newLine();
+                bufferedWriter.flush();
                 actionFromClient = bufferedReader.readLine();
-                if(actionFromClient.equals("join")){
+                if(actionFromClient.equalsIgnoreCase("join")){
                     chat=true;
                 }
 
