@@ -8,6 +8,7 @@ public class Client  {
  private BufferedReader bufferedReader;
  private BufferedWriter bufferedWriter;
  private String userName;
+ private boolean joinedroom = false;
 
  public Client(Socket socket, String userName) {
      try {
@@ -27,7 +28,16 @@ public class Client  {
          bufferedWriter.flush();
 
          Scanner scanner = new Scanner(System.in);
-         while(socket.isConnected()) {
+         while(socket.isConnected() && !joinedroom){
+             String messageToSend = scanner.nextLine();
+             bufferedWriter.write(messageToSend);
+             bufferedWriter.newLine();
+             bufferedWriter.flush();
+             if (messageToSend.equals("join")){
+                 joinedroom=true;
+             }
+         }
+         while(socket.isConnected() && joinedroom) {
              String messageToSend = scanner.nextLine();
              bufferedWriter.write("[" + userName + "]: " + messageToSend);
              bufferedWriter.newLine();

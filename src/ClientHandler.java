@@ -9,6 +9,7 @@ public class ClientHandler implements  Runnable{
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
     private String clientUsername;
+    private boolean chat;
 
     public ClientHandler(Socket socket) {
         try{
@@ -17,7 +18,7 @@ public class ClientHandler implements  Runnable{
            this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
            this.clientUsername = bufferedReader.readLine();
            clientHandlers.add(this);
-           broadcastMessage("SERVER: " + clientUsername + " has entered the chat");
+           //broadcastMessage("SERVER: " + clientUsername + " has entered the chat");
         } catch (IOException e) {
             closeEverything(socket,bufferedReader,bufferedWriter);
         }
@@ -26,13 +27,26 @@ public class ClientHandler implements  Runnable{
     @Override
     public void run() {
         String messageFromClient;
+        String actionFromClient;
 
-        while(socket.isConnected()) {
-            try{
+        while (socket.isConnected() && !chat){
+            try {
+                actionFromClient = bufferedReader.readLine();
+                if(actionFromClient.equals("join")){
+                    chat=true;
+                }
+
+            } catch (Exception e) {
+                closeEverything(socket, bufferedReader, bufferedWriter);
+                break;
+            }
+        }
+        while(socket.isConnected() && chat) {
+            try {
                 messageFromClient = bufferedReader.readLine();
                 broadcastMessage(messageFromClient);
             } catch (IOException e) {
-                closeEverything(socket,bufferedReader,bufferedWriter);
+                closeEverything(socket, bufferedReader, bufferedWriter);
                 break;
             }
         }
