@@ -10,6 +10,9 @@ public class Server {
     //public Rooms roomClass;
     public ClientHandler clientHandler;
 
+    public static LinkedList<String> Rooms = new LinkedList<>();
+
+
 
 
 
@@ -55,7 +58,6 @@ public class Server {
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(6969);
         Server server = new Server(serverSocket);
-        LinkedList<String> Rooms = new LinkedList<>();
         server.startServer();
 
 

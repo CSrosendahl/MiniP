@@ -2,6 +2,7 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.ListIterator;
 
 public class ClientHandler implements  Runnable{
@@ -19,7 +20,7 @@ public class ClientHandler implements  Runnable{
     public boolean roomCreated = false;
     private boolean testBool = false;
     public int maxUsers;
-
+    //public LinkedList<String> Roomslist = new LinkedList<>();
 
 
 
@@ -53,7 +54,7 @@ public class ClientHandler implements  Runnable{
 
         String messageFromClient;
         String actionFromClient;
-
+        LinkedList<String> Roomslist = Server.Rooms;
 
 
         while (socket.isConnected() && !chat){
@@ -79,8 +80,14 @@ public class ClientHandler implements  Runnable{
 
                 if(actionFromClient.equalsIgnoreCase("rooms")){
 
+                    bufferedWriter.write("Rooms: ");
+                    ListIterator<String> iterator = Roomslist.listIterator();
 
-                   //bufferedWriter.write("Welcome to the chatroom: " + clientUsername);
+                    while (iterator.hasNext()){
+                        bufferedWriter.write(iterator.next());
+                    }
+
+                    ;
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
 
@@ -93,7 +100,14 @@ public class ClientHandler implements  Runnable{
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                     roomName =  bufferedReader.readLine();
+
+                    Roomslist.add(roomName);
+                    bufferedWriter.write("You created the chatroom: ");
+                    bufferedWriter.newLine();
+                    bufferedWriter.flush();
+                    System.out.println(Roomslist.size());
                     chat=true;
+
                 }
 
 
