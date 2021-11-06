@@ -20,7 +20,7 @@ public class Server {
                thread.start();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            closeServerSocket();
         }
     }
     public void closeServerSocket() {
