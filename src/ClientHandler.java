@@ -20,8 +20,7 @@ public class ClientHandler implements  Runnable{
     public boolean roomCreated = false;
     private boolean testBool = false;
     public int maxUsers;
-    //public LinkedList<String> Roomslist = new LinkedList<>();
-
+    private static LinkedList<String> Roomslist = Server.Rooms;
 
 
 
@@ -54,7 +53,7 @@ public class ClientHandler implements  Runnable{
 
         String messageFromClient;
         String actionFromClient;
-        LinkedList<String> Roomslist = Server.Rooms;
+
 
 
         while (socket.isConnected() && !chat){
@@ -105,7 +104,7 @@ public class ClientHandler implements  Runnable{
                     bufferedWriter.write("You created the chatroom: ");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
-                    System.out.println(Roomslist.size());
+                    //System.out.println(Roomslist.size());
                     chat=true;
 
                 }
