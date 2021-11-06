@@ -36,6 +36,9 @@ public class Client  {
              if (messageToSend.equalsIgnoreCase("rooms")){
                  joinedroom=true;
              }
+             if (messageToSend.equalsIgnoreCase("create")){
+                 joinedroom=true;
+             }
          }
          while(socket.isConnected() && joinedroom) {
              String messageToSend = scanner.nextLine();

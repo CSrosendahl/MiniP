@@ -2,22 +2,23 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 public class ClientHandler implements  Runnable{
 
     public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
     private Socket socket;
+    public Server server;
     public Rooms roomClass;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
     private String clientUsername;
     private boolean chat;
     private boolean welcomeMessage = true;
-
+    public String roomName;
     public boolean roomCreated = false;
     private boolean testBool = false;
-    private String roomName;
-    private int maxUsers;
+    public int maxUsers;
 
 
 
@@ -54,6 +55,7 @@ public class ClientHandler implements  Runnable{
         String actionFromClient;
 
 
+
         while (socket.isConnected() && !chat){
 
             try {
@@ -87,44 +89,11 @@ public class ClientHandler implements  Runnable{
                 }
                 if(actionFromClient.equalsIgnoreCase("Create")){
 
-                    roomCreated = true;
-
                     bufferedWriter.write("Please enter the name of your room");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
-                     roomName =  bufferedReader.readLine();
-
-
-                    bufferedWriter.write("How many users in your room");
-                    bufferedWriter.newLine();
-                    bufferedWriter.flush();
-                     maxUsers =  bufferedReader.read();
-
-
-
-                  //
-                   //
-
-
-
-                    chat = true;
-                    testBool = true;
-
-                }
-
-                if(testBool) {
-
-
-                  // roomClass.rooms.add(roomClass.setRooms(roomName,maxUsers))
-                    Rooms roomClass = new Rooms(roomName,maxUsers);
-                  //  roomClass.rooms.add(new Rooms(roomName,maxUsers));
-                     roomClass.rooms.add(roomClass);
-
-                    for (int i = 0; i < roomClass.rooms.size(); i++) {
-                        System.out.println(roomClass.rooms.get(i).name);
-                    }
-
-
+                    roomName =  bufferedReader.readLine();
+                    chat=true;
                 }
 
 

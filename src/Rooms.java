@@ -3,8 +3,8 @@ import java.util.ArrayList;
 
 public class Rooms  {
 
-    public ArrayList<Rooms> rooms = new ArrayList<>();
-    public Server server;
+
+
 
 
 
@@ -19,7 +19,7 @@ public class Rooms  {
     }
 
 
-    public void getRooms() {
+   /* public void getRooms() {
 
 
         for (int i = 0; i < rooms.size(); i++) {
@@ -39,5 +39,5 @@ public class Rooms  {
 
 
     }
-
+*/
 }

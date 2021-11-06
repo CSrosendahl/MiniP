@@ -2,11 +2,15 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 public class Server {
     private ServerSocket serverSocket;
-    public Rooms roomClass;
+    //public Rooms roomClass;
     public ClientHandler clientHandler;
+
+
 
 
 
@@ -26,8 +30,6 @@ public class Server {
                Socket socket = serverSocket.accept();
                System.out.println("A new user has entered the lobby");
                ClientHandler clientHandler = new ClientHandler(socket);
-
-
 
 
 
@@ -53,14 +55,16 @@ public class Server {
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(6969);
         Server server = new Server(serverSocket);
+        LinkedList<String> Rooms = new LinkedList<>();
         server.startServer();
 
 
 
 
 
-
     }
+
+
 
 
 }
