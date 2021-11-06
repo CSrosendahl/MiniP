@@ -80,11 +80,11 @@ public class ClientHandler implements  Runnable{
                 if(actionFromClient.equalsIgnoreCase("rooms")){
 
                     bufferedWriter.write("Rooms: ");
-                    ListIterator<String> iterator = Roomslist.listIterator();
+                   /* ListIterator<String> iterator = Roomslist.listIterator();
 
                     while (iterator.hasNext()){
                         bufferedWriter.write(iterator.next());
-                    }
+                    }*/
 
                     ;
                     bufferedWriter.newLine();
