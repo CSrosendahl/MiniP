@@ -54,7 +54,7 @@ This should be done, after starting the server
 *
     The Client should be connected to the server now.
 *
-    You are now in the lobby, for here you can type 'join' in order to connect to the group chat.
+    You are now in the lobby, from here you can type 'join' in order to connect to the group chat.
 *
     Once in group chat you should be able to chat with the users connected to the groupchat.
 *
