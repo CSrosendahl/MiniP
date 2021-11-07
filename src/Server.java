@@ -22,8 +22,9 @@ public class Server {
 
     public void startServer() {
         try{
-            Time();
 
+            Time();
+            System.out.println("The chat server started at " + time + "!");
 
 
             while(!serverSocket.isClosed()) {

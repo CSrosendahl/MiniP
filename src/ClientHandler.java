@@ -66,7 +66,7 @@ public class ClientHandler implements  Runnable{
 
                 if(actionFromClient.equalsIgnoreCase("Join")){
 
-                    bufferedWriter.write("You joined the chat! " + "Welcome to the jungle " + clientUsername);
+                    bufferedWriter.write("You joined the chat! " + "\n" + "Please dont swear " + clientUsername + "!");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                     broadcastMessage("[" + time + "]"+ "[SERVER]: " +clientUsername + " has joined the chat!");
