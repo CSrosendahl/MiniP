@@ -90,13 +90,20 @@ public class ClientHandler implements  Runnable{
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                     roomIndex = bufferedReader.read();
-                    bufferedWriter.write("You joined a chatroom! " + "\n" + "Room " + roomIndex + roomsList.get(roomIndex) + ": ");
-                    bufferedWriter.newLine();
-                    bufferedWriter.flush();
-                    chat=true;
+
+                        if(roomsList.isEmpty()){
+                            bufferedWriter.write("Type the number of the room you would like to join.");
+                            bufferedWriter.newLine();
+                            bufferedWriter.flush();
+                        }else{
+                        bufferedWriter.write("You joined a chatroom! " + "\n" + "Room " + roomIndex + roomsList.get(roomIndex) + ": ");
+                        bufferedWriter.newLine();
+                        bufferedWriter.flush();
+                        chat = true;}
+
 
                 }
-                if(actionFromClient.equalsIgnoreCase("Create")){
+                else if(actionFromClient.equalsIgnoreCase("Create")){
 
                     bufferedWriter.write("Please enter the name of your room");
                     bufferedWriter.newLine();
