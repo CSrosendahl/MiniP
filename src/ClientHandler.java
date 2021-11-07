@@ -20,7 +20,7 @@ public class ClientHandler implements  Runnable{
     public boolean roomCreated = false;
     private boolean testBool = false;
     public int maxUsers;
-    private static LinkedList<String> Roomslist = new LinkedList<>();
+    private static LinkedList<String> roomsList = new LinkedList<>();
 
 
 
@@ -80,11 +80,13 @@ public class ClientHandler implements  Runnable{
                 if(actionFromClient.equalsIgnoreCase("rooms")){
 
                     bufferedWriter.write("Rooms: ");
-                   /* ListIterator<String> iterator = Roomslist.listIterator();
+                    ListIterator<String> iterator = roomsList.listIterator();
 
                     while (iterator.hasNext()){
                         bufferedWriter.write(iterator.next());
-                    }*/
+                        bufferedWriter.newLine();
+                        bufferedWriter.flush();
+                    }
 
                     ;
                     bufferedWriter.newLine();
@@ -100,11 +102,11 @@ public class ClientHandler implements  Runnable{
                     bufferedWriter.flush();
                     roomName =  bufferedReader.readLine();
 
-                    Roomslist.add(roomName);
-                    bufferedWriter.write("You created the chatroom: ");
+                    roomsList.add(roomName);
+
+                    bufferedWriter.write("You created the chatroom: " + "\n" + "Room " + roomsList.indexOf(roomName) + ": "+ roomName);
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
-                    //System.out.println(Roomslist.size());
                     chat=true;
 
                 }
