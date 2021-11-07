@@ -42,9 +42,6 @@ public class ClientHandler implements  Runnable{
     public void run() {
 
 
-
-
-
         String messageFromClient;
         String actionFromClient;
 
@@ -53,7 +50,6 @@ public class ClientHandler implements  Runnable{
         while (socket.isConnected() && !chat){
 
             try {
-
 
 
                 if(welcomeMessage) {
@@ -78,10 +74,15 @@ public class ClientHandler implements  Runnable{
                     bufferedWriter.flush();
                     chat = true;
                 }
+                if(actionFromClient.equalsIgnoreCase("luk")){
 
+                    bufferedWriter.write("You have left the server");
+                    bufferedWriter.newLine();
+                    bufferedWriter.flush();
+                    socket.close();
 
-
-
+                //    closeEverything(socket,bufferedReader,bufferedWriter);
+                }
 
 
             } catch (Exception e) {
@@ -92,8 +93,16 @@ public class ClientHandler implements  Runnable{
         while(socket.isConnected() && chat) {
             try {
 
-                            messageFromClient = bufferedReader.readLine();
-                            broadcastMessage(messageFromClient);
+                messageFromClient = bufferedReader.readLine();
+                if(messageFromClient.equalsIgnoreCase("[" + time + "]" + "[" + clientUsername + "]: " + "luk")){
+
+                    System.out.println("A user has left the server: " + clientUsername);
+                  //  closeEverythingInChat(socket, bufferedReader, bufferedWriter);
+                    socket.close();
+                } else {
+                    broadcastMessage(messageFromClient);
+                }
+
 
 
 

@@ -43,6 +43,10 @@ public class Client  {
              if (messageToSend.equalsIgnoreCase("join")){
                  joinedRoom=true;
              }
+             if (messageToSend.equalsIgnoreCase("luk")){
+                 socket.close();
+             }
+
 
 
          }
@@ -51,6 +55,11 @@ public class Client  {
              bufferedWriter.write("[" + time + "]" + "[" + userName + "]: " + messageToSend);
              bufferedWriter.newLine();
              bufferedWriter.flush();
+
+             if (messageToSend.equalsIgnoreCase("luk")){
+
+                 socket.close();
+             }
 
          }
 
@@ -82,6 +91,7 @@ public class Client  {
  }
 
  public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
+
 
      try {
          if(bufferedReader != null) {
