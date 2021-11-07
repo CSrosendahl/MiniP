@@ -60,7 +60,7 @@ public class ClientHandler implements  Runnable{
                     welcomeMessage = false;
 
                 } else {
-                    bufferedWriter.write("Please use the commands" + "\n" + "Commands: Join");
+                    bufferedWriter.write("Please use the commands" + "\n" + "Commands: Join | Quit");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                 }
@@ -75,10 +75,7 @@ public class ClientHandler implements  Runnable{
                     bufferedWriter.flush();
                     chat = true;
                 }
-                if(actionFromClient.equalsIgnoreCase("Quit")){
 
-                    closeEverything(socket,bufferedReader,bufferedWriter);
-                }
 
 
 
@@ -98,7 +95,7 @@ public class ClientHandler implements  Runnable{
 
 
             } catch (IOException e) {
-                closeEverything(socket, bufferedReader, bufferedWriter);
+                closeEverythingInChat(socket, bufferedReader, bufferedWriter);
                 break;
             }
         }
@@ -125,6 +122,23 @@ public class ClientHandler implements  Runnable{
 
     }
     public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
+        try {
+            if(bufferedReader != null) {
+                bufferedReader.close();
+            }
+            if(bufferedWriter != null) {
+                bufferedWriter.close();
+            }
+            if(socket != null) {
+                socket.close();
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void closeEverythingInChat(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
         removeClientHandler();
         try {
             if(bufferedReader != null) {

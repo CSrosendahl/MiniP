@@ -31,28 +31,20 @@ public class Client  {
          Scanner scanner = new Scanner(System.in);
          while(socket.isConnected() && !joinedRoom){
              String messageToSend = scanner.nextLine();
-             if (messageToSend.equalsIgnoreCase("quit")){
-                 closeEverything(socket,bufferedReader,bufferedWriter);
-
-             }else {
              bufferedWriter.write(messageToSend);
              bufferedWriter.newLine();
              bufferedWriter.flush();
              if (messageToSend.equalsIgnoreCase("join")){
                  joinedRoom=true;
-
-             }
              }
          }
          while(socket.isConnected() && joinedRoom) {
              String messageToSend = scanner.nextLine();
-             if (messageToSend.equalsIgnoreCase("quit")){
-                 closeEverything(socket,bufferedReader,bufferedWriter);
-             }else {
+
                  bufferedWriter.write("[" + userName + "]: " + messageToSend);
                  bufferedWriter.newLine();
                  bufferedWriter.flush();
-             }
+
          }
      } catch (IOException e) {
          closeEverything(socket,bufferedReader,bufferedWriter);
