@@ -8,6 +8,7 @@ import java.util.ListIterator;
 public class ClientHandler implements  Runnable{
 
     public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+    public static LinkedList<String> roomsList = new LinkedList<>();
     private Socket socket;
     public Server server;
     public Rooms roomClass;
@@ -20,7 +21,7 @@ public class ClientHandler implements  Runnable{
     public boolean roomCreated = false;
     private boolean testBool = false;
     public int maxUsers;
-    private static LinkedList<String> roomsList = new LinkedList<>();
+
 
 
 
