@@ -51,9 +51,7 @@ public class Client  {
              bufferedWriter.newLine();
              bufferedWriter.flush();
 
-             if (messageToSend.equals("quit")){
-                 closeEverything(socket,bufferedReader,bufferedWriter);
-             }
+
 
 
          }
