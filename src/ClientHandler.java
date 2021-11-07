@@ -19,11 +19,6 @@ public class ClientHandler implements  Runnable{
     private static SimpleDateFormat timeDateFormat = new SimpleDateFormat("hh:mm:ss");
 
 
-
-
-
-
-
     public ClientHandler(Socket socket) {
 
         try{
@@ -33,7 +28,8 @@ public class ClientHandler implements  Runnable{
            this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
            this.clientUsername = bufferedReader.readLine();
            clientHandlers.add(this);
-                   } catch (IOException e) {
+                   }
+        catch (IOException e) {
             closeEverything(socket,bufferedReader,bufferedWriter);
         }
     }
@@ -69,7 +65,7 @@ public class ClientHandler implements  Runnable{
 
                 if(actionFromClient.equalsIgnoreCase("Join")){
 
-                    bufferedWriter.write("You joined the group chatroom!");
+                    bufferedWriter.write("You joined the chat! " + "Welcome to the jungle " + clientUsername);
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                     chat = true;
@@ -97,7 +93,7 @@ public class ClientHandler implements  Runnable{
                 if(messageFromClient.equalsIgnoreCase("[" + time + "]" + "[" + clientUsername + "]: " + "luk")){
 
                     System.out.println("A user has left the server: " + clientUsername);
-                  //  closeEverythingInChat(socket, bufferedReader, bufferedWriter);
+
                     socket.close();
                 } else {
                     broadcastMessage(messageFromClient);
