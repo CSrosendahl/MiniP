@@ -10,11 +10,10 @@ public class Client  {
  private BufferedReader bufferedReader;
  private BufferedWriter bufferedWriter;
  private String userName;
- private String messageToSend;
  private boolean joinedRoom = false;
- private static int portNumb = 8989;
+ private final static int portNumb = 8989;
  static String time;
- private static SimpleDateFormat timeDateFormat = new SimpleDateFormat("hh:mm:ss");
+ private final static SimpleDateFormat timeDateFormat = new SimpleDateFormat("hh:mm:ss");
 
  public Client(Socket socket, String userName) {
      try {
@@ -35,6 +34,7 @@ public class Client  {
          bufferedWriter.flush();
 
          Scanner scanner = new Scanner(System.in);
+         String messageToSend;
          while(socket.isConnected() && !joinedRoom){
              messageToSend = scanner.nextLine();
              bufferedWriter.write(messageToSend);
@@ -69,24 +69,21 @@ public class Client  {
      }
  }
  public void listenForMessage(){
-     new Thread(new Runnable() {
-         @Override
-         public void run() {
-            String msgFromGroupChat;
-            while(socket.isConnected()) {
-                try {
+     new Thread(() -> {
+        String msgFromGroupChat;
+        while(socket.isConnected()) {
+            try {
 
-                    msgFromGroupChat = bufferedReader.readLine();
-                    System.out.println(msgFromGroupChat);
+                msgFromGroupChat = bufferedReader.readLine();
+                System.out.println(msgFromGroupChat);
 
 
 
 
-                } catch (IOException e) {
-                    closeEverything(socket,bufferedReader,bufferedWriter);
-                }
+            } catch (IOException e) {
+                closeEverything(socket,bufferedReader,bufferedWriter);
             }
-         }
+        }
      }).start();
  }
 

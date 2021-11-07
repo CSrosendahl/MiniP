@@ -6,11 +6,10 @@ import java.util.Date;
 
 
 public class Server {
-    private ServerSocket serverSocket;
-    public ClientHandler clientHandler;
-    String time;
-    private static SimpleDateFormat timeDateFormat = new SimpleDateFormat("hh:mm:ss");
-    private static int portNumb = 8989;
+    private final ServerSocket serverSocket;
+    public String time;
+    private final static SimpleDateFormat timeDateFormat = new SimpleDateFormat("hh:mm:ss");
+    private final static int portNumb = 8989;
 
 
 

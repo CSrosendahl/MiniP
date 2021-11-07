@@ -16,8 +16,8 @@ public class ClientHandler implements  Runnable{
     private String clientUsername;
     private boolean chat;
     private boolean welcomeMessage = true;
-    String time;
-    private static SimpleDateFormat timeDateFormat = new SimpleDateFormat("hh:mm:ss");
+    public String time;
+    private final static SimpleDateFormat timeDateFormat = new SimpleDateFormat("hh:mm:ss");
     public String[] profanity = new String[] {"shit", "fuck", "cunt", "dick", "ass", "piss"};
 
     public ClientHandler(Socket socket) {
