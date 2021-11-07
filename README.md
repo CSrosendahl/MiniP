@@ -1,6 +1,6 @@
 Introduction
 --
-The Chatroom client and server is a school project made in PCSS on AAU CPH made by: Nicolaj Junget Dehn Frederiksen, Martin Øhlers Petersen, Nick Blume, Amalie Morck, Christian Sonne Rosendahl and Sebastian Ottosen.
+The Chatroom client and server is a school project made in PCSS on AAU CPH made by: Nicolaj Junget Dehn Frederiksen, Martin Øhlers Petersen, Nick Blume, Amalie Mørck, Christian Sonne Rosendahl and Sebastian Ottosen.
 
 The Chatroom illustates basic function of multithreaded server.
 
@@ -58,7 +58,7 @@ This should be done, after starting the server
 *
     Once in group chat you should be able to chat with the users connected to the groupchat.
 *
-    if you wish to leave at any point type 'quit' and you will be disconnected from the server. (you will hjave to ruin the java file again in order to connect)
+    if you wish to leave at any point type 'quit' and you will be disconnected from the server. (you will have to ruin the java file again in order to connect)
 
 Note:
 
