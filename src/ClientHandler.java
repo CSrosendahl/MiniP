@@ -20,7 +20,7 @@ public class ClientHandler implements  Runnable{
     public boolean roomCreated = false;
     private boolean testBool = false;
     public int maxUsers;
-    private static LinkedList<String> Roomslist = Server.Rooms;
+    private static LinkedList<String> Roomslist = new LinkedList<>();
 
 
 
