@@ -43,7 +43,7 @@ public class Client  {
              if (messageToSend.equalsIgnoreCase("join")){
                  joinedRoom=true;
              }
-             if (messageToSend.equalsIgnoreCase("luk")){
+             if (messageToSend.equalsIgnoreCase("quit")){
                  socket.close();
              }
 
@@ -56,7 +56,7 @@ public class Client  {
              bufferedWriter.newLine();
              bufferedWriter.flush();
 
-             if (messageToSend.equalsIgnoreCase("luk")){
+             if (messageToSend.equalsIgnoreCase("quit")){
 
                  socket.close();
              }

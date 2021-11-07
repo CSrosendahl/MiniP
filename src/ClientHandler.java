@@ -69,10 +69,10 @@ public class ClientHandler implements  Runnable{
                     bufferedWriter.write("You joined the chat! " + "Welcome to the jungle " + clientUsername);
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
-                    broadcastMessage(clientUsername + " has joined the chat!");
+                    broadcastMessage("[" + time + "] "+ "[SERVER]: " +clientUsername + " has joined the chat!");
                     chat = true;
                 }
-                if(actionFromClient.equalsIgnoreCase("luk")){
+                if(actionFromClient.equalsIgnoreCase("quit")){
 
                     bufferedWriter.write("You have left the server");
                     bufferedWriter.newLine();
@@ -99,7 +99,7 @@ public class ClientHandler implements  Runnable{
                         break;
                     }
                 }
-                if(messageFromClient.equalsIgnoreCase("[" + time + "]" + "[" + clientUsername + "]: " + "luk")){
+                if(messageFromClient.equalsIgnoreCase("[" + time + "]" + "[" + clientUsername + "]: " + "quit")){
 
                     System.out.println("A user has left the server: " + clientUsername);
 
