@@ -49,6 +49,9 @@ public class Client  {
                  bufferedWriter.write("[" + time+ "]"+ "[" + userName + "]: " + messageToSend);
                  bufferedWriter.newLine();
                  bufferedWriter.flush();
+             if(messageToSend.equalsIgnoreCase("quit")){
+                 socket.close();
+             }
 
          }
      } catch (IOException e) {
