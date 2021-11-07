@@ -13,8 +13,8 @@ public class Client  {
  private String messageToSend;
  private boolean joinedRoom = false;
  private static int portNumb = 8989;
-    static String time;
-    private static SimpleDateFormat timeDateFormat = new SimpleDateFormat("hh:mm:ss");
+ static String time;
+ private static SimpleDateFormat timeDateFormat = new SimpleDateFormat("hh:mm:ss");
 
  public Client(Socket socket, String userName) {
      try {
@@ -44,15 +44,13 @@ public class Client  {
                  joinedRoom=true;
              }
 
+
          }
          while(socket.isConnected() && joinedRoom) {
              messageToSend = scanner.nextLine();
              bufferedWriter.write("[" + time + "]" + "[" + userName + "]: " + messageToSend);
              bufferedWriter.newLine();
              bufferedWriter.flush();
-
-
-
 
          }
 

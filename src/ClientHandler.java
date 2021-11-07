@@ -12,7 +12,6 @@ public class ClientHandler implements  Runnable{
     private Socket socket;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
-
     private String clientUsername;
     private boolean chat;
     private boolean welcomeMessage = true;
@@ -79,6 +78,7 @@ public class ClientHandler implements  Runnable{
                     bufferedWriter.flush();
                     chat = true;
                 }
+
 
 
 
