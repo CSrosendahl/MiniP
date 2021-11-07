@@ -30,19 +30,19 @@ public class Server {
             while(!serverSocket.isClosed()) {
                Socket socket = serverSocket.accept();
                System.out.println("[" + time + "] "+"A new user has entered the lobby");
-               ClientHandler clientHandler = new ClientHandler(socket);
+               UserHandler userHandler = new UserHandler(socket);
 
 
 
 
-               Thread thread = new Thread(clientHandler);
+               Thread thread = new Thread(userHandler);
                thread.start();
             }
         } catch (IOException e) {
-            closeServerSocket();
+            closeServer();
         }
     }
-    public void closeServerSocket() {
+    public void closeServer() {
         try{
             if(serverSocket != null) {
                 serverSocket.close();

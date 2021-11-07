@@ -7,43 +7,43 @@ import java.util.Scanner;
 public class Client  {
 
  private Socket socket;
- private BufferedReader bufferedReader;
- private BufferedWriter bufferedWriter;
- private String userName;
+ private BufferedReader buffReader;
+ private BufferedWriter buffWriter;
+ private String username;
  private boolean joinedRoom = false;
  private final static int portNumb = 8989;
  static String time;
  private final static SimpleDateFormat timeDateFormat = new SimpleDateFormat("hh:mm:ss");
 
- public Client(Socket socket, String userName) {
+ public Client(Socket socket, String username) {
      try {
          Time();
          this.socket = socket;
-         this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-         this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-         this.userName = userName;
+         this.buffWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+         this.buffReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+         this.username = username;
 
      } catch (IOException e) {
-        closeEverything(socket,bufferedReader,bufferedWriter);
+        closeClient(socket, buffReader, buffWriter);
      }
  }
  public void sendMessage() {
      try {
-         bufferedWriter.write(userName);
-         bufferedWriter.newLine();
-         bufferedWriter.flush();
+         buffWriter.write(username);
+         buffWriter.newLine();
+         buffWriter.flush();
 
          Scanner scanner = new Scanner(System.in);
-         String messageToSend;
+         String messSend;
          while(socket.isConnected() && !joinedRoom){
-             messageToSend = scanner.nextLine();
-             bufferedWriter.write(messageToSend);
-             bufferedWriter.newLine();
-             bufferedWriter.flush();
-             if (messageToSend.equalsIgnoreCase("join")){
+             messSend = scanner.nextLine();
+             buffWriter.write(messSend);
+             buffWriter.newLine();
+             buffWriter.flush();
+             if (messSend.equalsIgnoreCase("join")){
                  joinedRoom=true;
              }
-             if (messageToSend.equalsIgnoreCase("quit")){
+             if (messSend.equalsIgnoreCase("quit")){
                  socket.close();
              }
 
@@ -51,12 +51,12 @@ public class Client  {
 
          }
          while(socket.isConnected() && joinedRoom) {
-             messageToSend = scanner.nextLine();
-             bufferedWriter.write("[" + time + "]" + "[" + userName + "]: " + messageToSend);
-             bufferedWriter.newLine();
-             bufferedWriter.flush();
+             messSend = scanner.nextLine();
+             buffWriter.write("[" + time + "]" + "[" + username + "]: " + messSend);
+             buffWriter.newLine();
+             buffWriter.flush();
 
-             if (messageToSend.equalsIgnoreCase("quit")){
+             if (messSend.equalsIgnoreCase("quit")){
 
                  socket.close();
              }
@@ -64,38 +64,38 @@ public class Client  {
          }
 
      } catch (IOException e) {
-         closeEverything(socket,bufferedReader,bufferedWriter);
+         closeClient(socket, buffReader, buffWriter);
 
      }
  }
- public void listenForMessage(){
+ public void receivedMessage(){
      new Thread(() -> {
-        String msgFromGroupChat;
+        String receivedBroadcast;
         while(socket.isConnected()) {
             try {
 
-                msgFromGroupChat = bufferedReader.readLine();
-                System.out.println(msgFromGroupChat);
+                receivedBroadcast = buffReader.readLine();
+                System.out.println(receivedBroadcast);
 
 
 
 
             } catch (IOException e) {
-                closeEverything(socket,bufferedReader,bufferedWriter);
+                closeClient(socket, buffReader, buffWriter);
             }
         }
      }).start();
  }
 
- public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
+ public void closeClient(Socket socket, BufferedReader buffReader, BufferedWriter buffWriter) {
 
 
      try {
-         if(bufferedReader != null) {
-             bufferedReader.close();
+         if(buffReader != null) {
+             buffReader.close();
          }
-         if(bufferedWriter != null) {
-             bufferedWriter.close();
+         if(buffWriter != null) {
+             buffWriter.close();
          }
          if(socket != null) {
              socket.close();
@@ -109,10 +109,10 @@ public class Client  {
      Time();
      Scanner scanner = new Scanner(System.in);
      System.out.println("Enter your username for the group chat: ");
-     String userName = scanner.nextLine();
+     String username = scanner.nextLine();
      Socket socket = new Socket("localhost",portNumb);
-     Client client = new Client(socket,userName);
-     client.listenForMessage();
+     Client client = new Client(socket,username);
+     client.receivedMessage();
      client.sendMessage();
  }
     public static void Time(){
