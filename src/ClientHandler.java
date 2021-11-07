@@ -1,7 +1,9 @@
 import java.io.*;
 import java.lang.reflect.Array;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -24,7 +26,8 @@ public class ClientHandler implements  Runnable{
     public boolean room0 = false;
     public boolean room1 = false;
     private boolean testBool = false;
-
+    String time;
+    private static SimpleDateFormat timeDateFormat = new SimpleDateFormat("hh:mm:ss");
     public int maxUsers;
 
 
@@ -36,6 +39,7 @@ public class ClientHandler implements  Runnable{
     public ClientHandler(Socket socket) {
 
         try{
+            Time();
             this.socket = socket;
            this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
            this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -69,13 +73,13 @@ public class ClientHandler implements  Runnable{
 
 
                 if(welcomeMessage) {
-                    bufferedWriter.write("Welcome " + clientUsername + " you have joined the lobby!" + "\n" + "Commands: Rooms | Create | Quit");
+                    bufferedWriter.write( "["+ time +"] " + "Welcome " + clientUsername + " you have joined the lobby!" + "\n" + "Commands: Rooms | Create | Quit");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                     welcomeMessage = false;
 
                 } else {
-                    bufferedWriter.write("Please use the commands" + "\n" + "Commands: Join | Create | Quit");
+                    bufferedWriter.write("["+ time +"] " +"Please use the commands" + "\n" + "["+ time +"] " + "Commands: Join | Create | Quit");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                 }
@@ -93,7 +97,7 @@ public class ClientHandler implements  Runnable{
                         bufferedWriter.newLine();
                         bufferedWriter.flush();
                     }
-                    bufferedWriter.write("Type the number of the room you would like to join.");
+                    bufferedWriter.write("["+ time +"] " +"Type the number of the room you would like to join.");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
 
@@ -104,7 +108,7 @@ public class ClientHandler implements  Runnable{
                     if (roomIndex == 1){
                         room1 = true;
                     }
-                    bufferedWriter.write("You joined a chatroom! " + "\n" + "Room " + roomIndex + roomsList.get(roomIndex) + ": ");
+                    bufferedWriter.write("["+ time +"] " +"You joined a chatroom! " + "\n" + "Room " + roomIndex + roomsList.get(roomIndex) + ": ");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
 
@@ -117,12 +121,12 @@ public class ClientHandler implements  Runnable{
                 }
                 else if(actionFromClient.equalsIgnoreCase("Create")){
 
-                    bufferedWriter.write("Please enter the name of your room");
+                    bufferedWriter.write("["+ time +"] " +"Please enter the name of your room");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                     roomName =  bufferedReader.readLine();
                     roomsList.add(roomName);
-                    bufferedWriter.write("You created the chatroom: " + "\n" + "Room " + roomsList.indexOf(roomName) + ": "+ roomName);
+                    bufferedWriter.write("["+ time +"] " +"You created the chatroom: " + "\n" + "Room " + roomsList.indexOf(roomName) + ": "+ roomName);
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                     chat=true;
@@ -184,7 +188,7 @@ public class ClientHandler implements  Runnable{
     }
     public void removeClientHandler()  {
         clientHandlers.remove(this);
-        broadcastMessage("SERVER: " + clientUsername + " has left the chat ");
+        broadcastMessage("["+ time +"] " +"[SERVER] : " + clientUsername + " has left the chat ");
 
     }
     public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
@@ -204,4 +208,9 @@ public class ClientHandler implements  Runnable{
             e.printStackTrace();
         }
     }
+    public void Time(){
+        Date timeInMillis = new Date(System.currentTimeMillis());
+        time = timeDateFormat.format(timeInMillis);
+    }
+
 }
