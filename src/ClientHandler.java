@@ -69,6 +69,7 @@ public class ClientHandler implements  Runnable{
                     bufferedWriter.write("You joined the chat! " + "Welcome to the jungle " + clientUsername);
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
+                    broadcastMessage(clientUsername + " has joined the chat!");
                     chat = true;
                 }
                 if(actionFromClient.equalsIgnoreCase("luk")){
