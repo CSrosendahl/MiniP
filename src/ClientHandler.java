@@ -21,8 +21,10 @@ public class ClientHandler implements  Runnable{
     private boolean welcomeMessage = true;
     public static String roomName;
     public static int roomIndex;
-    public boolean roomCreated = false;
+    public boolean room0 = false;
+    public boolean room1 = false;
     private boolean testBool = false;
+
     public int maxUsers;
 
 
@@ -86,20 +88,30 @@ public class ClientHandler implements  Runnable{
                     bufferedWriter.write("Rooms: ");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
+                    for (int i = 0; i < roomsList.size(); i++) {
+                        bufferedWriter.write(i+" "+roomsList.get(i));
+                        bufferedWriter.newLine();
+                        bufferedWriter.flush();
+                    }
                     bufferedWriter.write("Type the number of the room you would like to join.");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
-                    roomIndex = bufferedReader.read();
 
-                        if(roomsList.isEmpty()){
-                            bufferedWriter.write("Type the number of the room you would like to join.");
-                            bufferedWriter.newLine();
-                            bufferedWriter.flush();
-                        }else{
-                        bufferedWriter.write("You joined a chatroom! " + "\n" + "Room " + roomIndex + roomsList.get(roomIndex) + ": ");
-                        bufferedWriter.newLine();
-                        bufferedWriter.flush();
-                        chat = true;}
+                    roomIndex = bufferedReader.read();
+                    if (roomIndex == 0){
+                        room0 = true;
+                    }
+                    if (roomIndex == 1){
+                        room1 = true;
+                    }
+                    bufferedWriter.write("You joined a chatroom! " + "\n" + "Room " + roomIndex + roomsList.get(roomIndex) + ": ");
+                    bufferedWriter.newLine();
+                    bufferedWriter.flush();
+
+                    chat = true;
+
+
+
 
 
                 }
@@ -114,6 +126,18 @@ public class ClientHandler implements  Runnable{
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                     chat=true;
+                    if (roomsList.indexOf(roomName) == 0){
+                        room0 = true;
+                    }
+                    if (roomsList.indexOf(roomName) == 1){
+                        room1 = true;
+                    }
+                    if (roomsList.indexOf(roomName) == 0){
+                        room0 = true;
+                    }
+                    if (roomsList.indexOf(roomName) == 1){
+                        room1 = true;
+                    }
 
                 }
 
@@ -127,8 +151,15 @@ public class ClientHandler implements  Runnable{
         }
         while(socket.isConnected() && chat) {
             try {
-                messageFromClient = bufferedReader.readLine();
-                broadcastMessage(messageFromClient);
+                        if(room0) {
+                            messageFromClient = bufferedReader.readLine();
+                            broadcastMessage(messageFromClient);
+                        }
+                        if(room1) {
+                        messageFromClient = bufferedReader.readLine();
+                        broadcastMessage(messageFromClient);
+                        }
+
 
             } catch (IOException e) {
                 closeEverything(socket, bufferedReader, bufferedWriter);
@@ -136,6 +167,7 @@ public class ClientHandler implements  Runnable{
             }
         }
     }
+
     public void broadcastMessage(String messageToSend) {
         for(ClientHandler clientHandler : clientHandlers) {
             try{
