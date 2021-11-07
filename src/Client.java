@@ -8,7 +8,8 @@ public class Client  {
  private BufferedReader bufferedReader;
  private BufferedWriter bufferedWriter;
  private String userName;
- private boolean joinedroom = false;
+ private boolean joinedRoom = false;
+
 
  public Client(Socket socket, String userName) {
      try {
@@ -28,26 +29,30 @@ public class Client  {
          bufferedWriter.flush();
 
          Scanner scanner = new Scanner(System.in);
-         while(socket.isConnected() && !joinedroom){
+         while(socket.isConnected() && !joinedRoom){
              String messageToSend = scanner.nextLine();
+             if (messageToSend.equalsIgnoreCase("quit")){
+                 closeEverything(socket,bufferedReader,bufferedWriter);
+
+             }else {
              bufferedWriter.write(messageToSend);
              bufferedWriter.newLine();
              bufferedWriter.flush();
-             if (messageToSend.equalsIgnoreCase("rooms")){
-                 int intToSend = scanner.nextInt();
-                 bufferedWriter.write(intToSend);
+             if (messageToSend.equalsIgnoreCase("join")){
+                 joinedRoom=true;
+
+             }
+             }
+         }
+         while(socket.isConnected() && joinedRoom) {
+             String messageToSend = scanner.nextLine();
+             if (messageToSend.equalsIgnoreCase("quit")){
+                 closeEverything(socket,bufferedReader,bufferedWriter);
+             }else {
+                 bufferedWriter.write("[" + userName + "]: " + messageToSend);
                  bufferedWriter.newLine();
                  bufferedWriter.flush();
              }
-             if (messageToSend.equalsIgnoreCase("create")){
-                 joinedroom=true;
-             }
-         }
-         while(socket.isConnected() && joinedroom) {
-             String messageToSend = scanner.nextLine();
-             bufferedWriter.write("[" + userName + "]: " + messageToSend);
-             bufferedWriter.newLine();
-             bufferedWriter.flush();
          }
      } catch (IOException e) {
          closeEverything(socket,bufferedReader,bufferedWriter);
@@ -61,6 +66,7 @@ public class Client  {
             String msgFromGroupChat;
             while(socket.isConnected()) {
                 try {
+
                     msgFromGroupChat = bufferedReader.readLine();
                     System.out.println(msgFromGroupChat);
 

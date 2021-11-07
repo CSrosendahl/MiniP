@@ -1,31 +1,20 @@
 import java.io.*;
-import java.lang.reflect.Array;
+
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.ListIterator;
 
-import static java.lang.Integer.parseInt;
 
 public class ClientHandler implements  Runnable{
 
     public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
-    public static LinkedList<String> roomsList = new LinkedList<>();
     private Socket socket;
-    public Server server;
-    public Rooms roomClass;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
+
     private String clientUsername;
     private boolean chat;
     private boolean welcomeMessage = true;
-    public static String roomName;
-    public static int roomIndex;
-    public boolean room0 = false;
-    public boolean room1 = false;
-    private boolean testBool = false;
 
-    public int maxUsers;
 
 
 
@@ -41,8 +30,7 @@ public class ClientHandler implements  Runnable{
            this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
            this.clientUsername = bufferedReader.readLine();
            clientHandlers.add(this);
-           //broadcastMessage("SERVER: " + clientUsername + " has entered the chat");
-        } catch (IOException e) {
+                   } catch (IOException e) {
             closeEverything(socket,bufferedReader,bufferedWriter);
         }
     }
@@ -51,15 +39,12 @@ public class ClientHandler implements  Runnable{
     public void run() {
 
 
-        //roomClass.rooms.add(new Rooms(roomName, maxUsers));
-       // System.out.println("Number of rooms created is " + roomClass.rooms.size());
-
 
 
 
         String messageFromClient;
         String actionFromClient;
-        int roomIndex;
+
 
 
         while (socket.isConnected() && !chat){
@@ -69,13 +54,13 @@ public class ClientHandler implements  Runnable{
 
 
                 if(welcomeMessage) {
-                    bufferedWriter.write("Welcome " + clientUsername + " you have joined the lobby!" + "\n" + "Commands: Rooms | Create | Quit");
+                    bufferedWriter.write("Welcome " + clientUsername + " you have joined the lobby!" + "\n" + "Commands: Join | Quit");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                     welcomeMessage = false;
 
                 } else {
-                    bufferedWriter.write("Please use the commands" + "\n" + "Commands: Join | Create | Quit");
+                    bufferedWriter.write("Please use the commands" + "\n" + "Commands: Join");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                 }
@@ -83,62 +68,16 @@ public class ClientHandler implements  Runnable{
 
                 actionFromClient = bufferedReader.readLine();
 
-                if(actionFromClient.equalsIgnoreCase("rooms")){
+                if(actionFromClient.equalsIgnoreCase("Join")){
 
-                    bufferedWriter.write("Rooms: ");
+                    bufferedWriter.write("You joined the group chatroom!");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
-                    for (int i = 0; i < roomsList.size(); i++) {
-                        bufferedWriter.write(i+" "+roomsList.get(i));
-                        bufferedWriter.newLine();
-                        bufferedWriter.flush();
-                    }
-                    bufferedWriter.write("Type the number of the room you would like to join.");
-                    bufferedWriter.newLine();
-                    bufferedWriter.flush();
-
-                    roomIndex = bufferedReader.read();
-                    if (roomIndex == 0){
-                        room0 = true;
-                    }
-                    if (roomIndex == 1){
-                        room1 = true;
-                    }
-                    bufferedWriter.write("You joined a chatroom! " + "\n" + "Room " + roomIndex + roomsList.get(roomIndex) + ": ");
-                    bufferedWriter.newLine();
-                    bufferedWriter.flush();
-
                     chat = true;
-
-
-
-
-
                 }
-                else if(actionFromClient.equalsIgnoreCase("Create")){
+                if(actionFromClient.equalsIgnoreCase("Quit")){
 
-                    bufferedWriter.write("Please enter the name of your room");
-                    bufferedWriter.newLine();
-                    bufferedWriter.flush();
-                    roomName =  bufferedReader.readLine();
-                    roomsList.add(roomName);
-                    bufferedWriter.write("You created the chatroom: " + "\n" + "Room " + roomsList.indexOf(roomName) + ": "+ roomName);
-                    bufferedWriter.newLine();
-                    bufferedWriter.flush();
-                    chat=true;
-                    if (roomsList.indexOf(roomName) == 0){
-                        room0 = true;
-                    }
-                    if (roomsList.indexOf(roomName) == 1){
-                        room1 = true;
-                    }
-                    if (roomsList.indexOf(roomName) == 0){
-                        room0 = true;
-                    }
-                    if (roomsList.indexOf(roomName) == 1){
-                        room1 = true;
-                    }
-
+                    closeEverything(socket,bufferedReader,bufferedWriter);
                 }
 
 
@@ -151,14 +90,11 @@ public class ClientHandler implements  Runnable{
         }
         while(socket.isConnected() && chat) {
             try {
-                        if(room0) {
+
                             messageFromClient = bufferedReader.readLine();
                             broadcastMessage(messageFromClient);
-                        }
-                        if(room1) {
-                        messageFromClient = bufferedReader.readLine();
-                        broadcastMessage(messageFromClient);
-                        }
+
+
 
 
             } catch (IOException e) {
@@ -182,6 +118,7 @@ public class ClientHandler implements  Runnable{
             }
         }
     }
+
     public void removeClientHandler()  {
         clientHandlers.remove(this);
         broadcastMessage("SERVER: " + clientUsername + " has left the chat ");
