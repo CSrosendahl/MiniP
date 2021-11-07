@@ -4,6 +4,7 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class ClientHandler implements  Runnable{
@@ -17,7 +18,7 @@ public class ClientHandler implements  Runnable{
     private boolean welcomeMessage = true;
     String time;
     private static SimpleDateFormat timeDateFormat = new SimpleDateFormat("hh:mm:ss");
-
+    public String[] profanity = new String[] {"shit", "fuck", "cunt", "dick", "ass", "piss"};
 
     public ClientHandler(Socket socket) {
 
@@ -77,7 +78,7 @@ public class ClientHandler implements  Runnable{
                     bufferedWriter.flush();
                     socket.close();
 
-                //    closeEverything(socket,bufferedReader,bufferedWriter);
+
                 }
 
 
@@ -90,12 +91,19 @@ public class ClientHandler implements  Runnable{
             try {
 
                 messageFromClient = bufferedReader.readLine();
+                String profanityCheck = messageFromClient.toLowerCase(Locale.ROOT);
+                for (String s : profanity) {
+                    if (profanityCheck.contains(s)) {
+                        messageFromClient = "[" + time + "]" + "[" + clientUsername + "]: " + "I Love U <3";
+                        break;
+                    }
+                }
                 if(messageFromClient.equalsIgnoreCase("[" + time + "]" + "[" + clientUsername + "]: " + "luk")){
 
                     System.out.println("A user has left the server: " + clientUsername);
 
                     socket.close();
-                } else {
+                }else {
                     broadcastMessage(messageFromClient);
                 }
 
