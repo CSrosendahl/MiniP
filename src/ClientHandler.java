@@ -1,7 +1,9 @@
 import java.io.*;
 
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class ClientHandler implements  Runnable{
@@ -14,7 +16,8 @@ public class ClientHandler implements  Runnable{
     private String clientUsername;
     private boolean chat;
     private boolean welcomeMessage = true;
-
+    String time;
+    private static SimpleDateFormat timeDateFormat = new SimpleDateFormat("hh:mm:ss");
 
 
 
@@ -25,6 +28,7 @@ public class ClientHandler implements  Runnable{
     public ClientHandler(Socket socket) {
 
         try{
+            Time();
             this.socket = socket;
            this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
            this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -54,13 +58,13 @@ public class ClientHandler implements  Runnable{
 
 
                 if(welcomeMessage) {
-                    bufferedWriter.write("Welcome " + clientUsername + " you have joined the lobby!" + "\n" + "Commands: Join | Quit");
+                    bufferedWriter.write("[" + time + "] "+"Welcome " + clientUsername + " you have joined the lobby!" + "\n" + "Commands: Join | Quit");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                     welcomeMessage = false;
 
                 } else {
-                    bufferedWriter.write("Please use the commands" + "\n" + "Commands: Join | Quit");
+                    bufferedWriter.write("[" + time + "] "+ "Please use the commands" + "\n" +"[" + time + "] "+ "Commands: Join | Quit");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                 }
@@ -70,7 +74,7 @@ public class ClientHandler implements  Runnable{
 
                 if(actionFromClient.equalsIgnoreCase("Join")){
 
-                    bufferedWriter.write("You joined the group chatroom!");
+                    bufferedWriter.write("[" + time + "] "+"You joined the group chatroom!");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                     chat = true;
@@ -118,7 +122,7 @@ public class ClientHandler implements  Runnable{
 
     public void removeClientHandler()  {
         clientHandlers.remove(this);
-        broadcastMessage("SERVER: " + clientUsername + " has left the chat ");
+        broadcastMessage("[" + time + "] "+ "[SERVER]: " + clientUsername + " has left the chat ");
 
     }
     public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
@@ -154,5 +158,9 @@ public class ClientHandler implements  Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void Time(){
+        Date timeInMillis = new Date(System.currentTimeMillis());
+        time = timeDateFormat.format(timeInMillis);
     }
 }

@@ -1,5 +1,7 @@
 import java.io.*;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Client  {
@@ -9,10 +11,13 @@ public class Client  {
  private BufferedWriter bufferedWriter;
  private String userName;
  private boolean joinedRoom = false;
-
+ private static int portNumb = 8989;
+    static String time;
+    private static SimpleDateFormat timeDateFormat = new SimpleDateFormat("hh:mm:ss");
 
  public Client(Socket socket, String userName) {
      try {
+         Time();
          this.socket = socket;
          this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
          this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -41,7 +46,7 @@ public class Client  {
          while(socket.isConnected() && joinedRoom) {
              String messageToSend = scanner.nextLine();
 
-                 bufferedWriter.write("[" + userName + "]: " + messageToSend);
+                 bufferedWriter.write("[" + time+ "]"+ "[" + userName + "]: " + messageToSend);
                  bufferedWriter.newLine();
                  bufferedWriter.flush();
 
@@ -91,13 +96,17 @@ public class Client  {
      }
  }
  public static void main(String[] args) throws IOException {
-
+     Time();
      Scanner scanner = new Scanner(System.in);
-     System.out.println("Enter your username for the group chat: ");
+     System.out.println("[" + time + "] " +"Enter your username for the group chat: ");
      String userName = scanner.nextLine();
-     Socket socket = new Socket("localhost",6969);
+     Socket socket = new Socket("localhost",portNumb);
      Client client = new Client(socket,userName);
      client.listenForMessage();
      client.sendMessage();
  }
+    public static void Time(){
+        Date timeInMillis = new Date(System.currentTimeMillis());
+        time = timeDateFormat.format(timeInMillis);
+    }
 }
