@@ -98,7 +98,7 @@ public class Client  {
  public static void main(String[] args) throws IOException {
      Time();
      Scanner scanner = new Scanner(System.in);
-     System.out.println("[" + time + "] " +"Enter your username for the group chat: ");
+     System.out.println("Enter your username for the group chat: ");
      String userName = scanner.nextLine();
      Socket socket = new Socket("localhost",portNumb);
      Client client = new Client(socket,userName);

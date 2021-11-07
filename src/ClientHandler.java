@@ -58,13 +58,13 @@ public class ClientHandler implements  Runnable{
 
 
                 if(welcomeMessage) {
-                    bufferedWriter.write("[" + time + "] "+"Welcome " + clientUsername + " you have joined the lobby!" + "\n" + "Commands: Join | Quit");
+                    bufferedWriter.write("Welcome " + clientUsername + " you have joined the lobby!" + "\n" + "Commands: Join | Quit");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                     welcomeMessage = false;
 
                 } else {
-                    bufferedWriter.write("[" + time + "] "+ "Please use the commands" + "\n" +"[" + time + "] "+ "Commands: Join | Quit");
+                    bufferedWriter.write("Please use the commands" + "\n" +"Commands: Join | Quit");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                 }
@@ -74,7 +74,7 @@ public class ClientHandler implements  Runnable{
 
                 if(actionFromClient.equalsIgnoreCase("Join")){
 
-                    bufferedWriter.write("[" + time + "] "+"You joined the group chatroom!");
+                    bufferedWriter.write("You joined the group chatroom!");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                     chat = true;
