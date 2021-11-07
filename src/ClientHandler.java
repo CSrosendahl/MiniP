@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
+import static java.lang.Integer.parseInt;
+
 public class ClientHandler implements  Runnable{
 
     public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
@@ -17,7 +19,8 @@ public class ClientHandler implements  Runnable{
     private String clientUsername;
     private boolean chat;
     private boolean welcomeMessage = true;
-    public String roomName;
+    public static String roomName;
+    public static int roomIndex;
     public boolean roomCreated = false;
     private boolean testBool = false;
     public int maxUsers;
@@ -54,7 +57,7 @@ public class ClientHandler implements  Runnable{
 
         String messageFromClient;
         String actionFromClient;
-
+        int roomIndex;
 
 
         while (socket.isConnected() && !chat){
@@ -64,7 +67,7 @@ public class ClientHandler implements  Runnable{
 
 
                 if(welcomeMessage) {
-                    bufferedWriter.write("Welcome " + clientUsername + " you have joined the lobby!" + "\n" + "Commands: Join | Create | Quit");
+                    bufferedWriter.write("Welcome " + clientUsername + " you have joined the lobby!" + "\n" + "Commands: Rooms | Create | Quit");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                     welcomeMessage = false;
@@ -81,18 +84,15 @@ public class ClientHandler implements  Runnable{
                 if(actionFromClient.equalsIgnoreCase("rooms")){
 
                     bufferedWriter.write("Rooms: ");
-                    ListIterator<String> iterator = roomsList.listIterator();
-
-                    while (iterator.hasNext()){
-                        bufferedWriter.write(iterator.next());
-                        bufferedWriter.newLine();
-                        bufferedWriter.flush();
-                    }
-
-                    ;
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
-
+                    bufferedWriter.write("Type the number of the room you would like to join.");
+                    bufferedWriter.newLine();
+                    bufferedWriter.flush();
+                    roomIndex = bufferedReader.read();
+                    bufferedWriter.write("You joined a chatroom! " + "\n" + "Room " + roomIndex + roomsList.get(roomIndex) + ": ");
+                    bufferedWriter.newLine();
+                    bufferedWriter.flush();
                     chat=true;
 
                 }
@@ -102,9 +102,7 @@ public class ClientHandler implements  Runnable{
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                     roomName =  bufferedReader.readLine();
-
                     roomsList.add(roomName);
-
                     bufferedWriter.write("You created the chatroom: " + "\n" + "Room " + roomsList.indexOf(roomName) + ": "+ roomName);
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
@@ -167,5 +165,4 @@ public class ClientHandler implements  Runnable{
             e.printStackTrace();
         }
     }
-
 }

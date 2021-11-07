@@ -34,7 +34,10 @@ public class Client  {
              bufferedWriter.newLine();
              bufferedWriter.flush();
              if (messageToSend.equalsIgnoreCase("rooms")){
-                 joinedroom=true;
+                 int intToSend = scanner.nextInt();
+                 bufferedWriter.write(intToSend);
+                 bufferedWriter.newLine();
+                 bufferedWriter.flush();
              }
              if (messageToSend.equalsIgnoreCase("create")){
                  joinedroom=true;
