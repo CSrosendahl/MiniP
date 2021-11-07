@@ -69,7 +69,7 @@ public class ClientHandler implements  Runnable{
                     bufferedWriter.write("You joined the chat! " + "\n" + "Please dont swear " + clientUsername + "!");
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
-                    broadcastMessage("[" + time + "]"+ "[SERVER]: " +clientUsername + " has joined the chat!");
+                    broadcastMessage("[" + time + "]: "  +clientUsername + " has joined the chat!");
                     chat = true;
                 }
                 if(actionFromClient.equalsIgnoreCase("quit")){
@@ -136,7 +136,7 @@ public class ClientHandler implements  Runnable{
 
     public void removeClientHandler()  {
         clientHandlers.remove(this);
-        broadcastMessage("[" + time + "] "+ "[SERVER]: " + clientUsername + " has left the chat ");
+        broadcastMessage("[" + time + "]: "+   clientUsername + " has left the chat ");
 
     }
     public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
