@@ -94,7 +94,7 @@ public class ClientHandler implements  Runnable{
                 String profanityCheck = messageFromClient.toLowerCase(Locale.ROOT);
                 for (String s : profanity) {
                     if (profanityCheck.contains(s)) {
-                        messageFromClient = "[" + time + "]" + "[" + clientUsername + "]: " + "I Love U <3";
+                        messageFromClient = "[" + time + "]" + "[" + clientUsername + "]: " + "I LOVE U <3";
                         break;
                     }
                 }
