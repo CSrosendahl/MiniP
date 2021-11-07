@@ -62,5 +62,5 @@ This should be done, after starting the server
 
 Note:
 
-if you want to run multiple clients open up antoher cmd: change directory to the src folder using 'cd' and run java Client again.
+if you want to run multiple clients open up another cmd: change directory to the src folder using 'cd' and run java Client again.
 
