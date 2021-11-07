@@ -10,6 +10,7 @@ public class Client  {
  private BufferedReader bufferedReader;
  private BufferedWriter bufferedWriter;
  private String userName;
+ private String messageToSend;
  private boolean joinedRoom = false;
  private static int portNumb = 8989;
     static String time;
@@ -35,25 +36,28 @@ public class Client  {
 
          Scanner scanner = new Scanner(System.in);
          while(socket.isConnected() && !joinedRoom){
-             String messageToSend = scanner.nextLine();
+             messageToSend = scanner.nextLine();
              bufferedWriter.write(messageToSend);
              bufferedWriter.newLine();
              bufferedWriter.flush();
              if (messageToSend.equalsIgnoreCase("join")){
                  joinedRoom=true;
              }
+
          }
          while(socket.isConnected() && joinedRoom) {
-             String messageToSend = scanner.nextLine();
+             messageToSend = scanner.nextLine();
+             bufferedWriter.write("[" + time + "]" + "[" + userName + "]: " + messageToSend);
+             bufferedWriter.newLine();
+             bufferedWriter.flush();
 
-                 bufferedWriter.write("[" + time+ "]"+ "[" + userName + "]: " + messageToSend);
-                 bufferedWriter.newLine();
-                 bufferedWriter.flush();
-             if(messageToSend.equalsIgnoreCase("quit")){
-                 socket.close();
+             if (messageToSend.equals("quit")){
+                 closeEverything(socket,bufferedReader,bufferedWriter);
              }
 
+
          }
+
      } catch (IOException e) {
          closeEverything(socket,bufferedReader,bufferedWriter);
 
