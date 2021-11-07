@@ -20,7 +20,7 @@ public class Server {
     }
 
 
-    public void startServer() {
+    public void runServer() {
         try{
 
             Time();
@@ -56,7 +56,7 @@ public class Server {
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(portNumb);
         Server server = new Server(serverSocket);
-        server.startServer();
+        server.runServer();
     }
     public void Time(){
         Date timeInMillis = new Date(System.currentTimeMillis());
