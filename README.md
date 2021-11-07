@@ -26,9 +26,9 @@ This should be done, before starting the client
     
     (example: cd C:\Users\USER\Desktop\MiniP-master\MiniP-master\src)
 *
-    Then run the compiler on the java file by typing: javac Server.java (Folloeded by pressing enter).
+    Then run the compiler on the java file by typing: javac Server.java (Followed by pressing enter).
 *
-    Then run the file by typing: java Server (Folloeded by pressing enter).
+    Then run the file by typing: java Server (Followed by pressing enter).
 *
     The server should be running by now.
     
@@ -46,9 +46,9 @@ This should be done, after starting the server
     
     (example: cd C:\Users\USER\Desktop\MiniP-master\MiniP-master\src)
 *
-    Then run the compiler on the java file by typing: javac Client.java (Folloeded by pressing enter).
+    Then run the compiler on the java file by typing: javac Client.java (Followed by pressing enter).
 *
-    Then run the file by typing: java Client (Folloeded by pressing enter).
+    Then run the file by typing: java Client (Followed by pressing enter).
 *
     The Client should be started by now and you should be able to chose a Username you wish to connect to the server with and press enter.
 *
@@ -58,7 +58,7 @@ This should be done, after starting the server
 *
     Once in group chat you should be able to chat with the users connected to the groupchat.
 *
-    if you wish to leave at any point type 'quit' and you will be disconnected from the server. (you will have to ruin the java file again in order to connect)
+    if you wish to leave at any point type 'quit' and you will be disconnected from the server. (you will have to run the java file again in order to connect)
 
 Note:
 
